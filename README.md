@@ -54,7 +54,7 @@ Machine Learning
 
 ## Related references
 
-- [MCW](https://github.com/Microsoft/MCW)
+- [Microsoft Cloud Workshop](http://microsoftcloudworkshop.com/)
 
 ## Help & Support
 
