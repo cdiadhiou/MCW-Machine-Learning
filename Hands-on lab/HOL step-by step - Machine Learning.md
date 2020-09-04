@@ -168,7 +168,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     - **Time column**: `Date`
 
-    - **Group by column(s)**: `Battery_ID`
+    - **Time series identifier(s)**: `Battery_ID`
 
     - **Forecast horizon**: `30`
 
