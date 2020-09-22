@@ -209,9 +209,9 @@ In this exercise, you will create a model that predicts battery failure from tim
 
 2. Provide the `Name`, `Description` and `Compute type`, and then select **Deploy**:
 
-    - **Name**: **battery-cycles**
+    - **Name**: `battery-cycles`
 
-    - **Description**: **The best AutoML model to predict battery cycles.**
+    - **Description**: `The best AutoML model to predict battery cycles.`
 
     - **Compute type**: Select `ACI`.
 
