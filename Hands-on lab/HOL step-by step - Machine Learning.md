@@ -220,9 +220,9 @@ In this exercise, you will create a model that predicts battery failure from tim
 
 2. Provide the `Name`, `Description` and `Compute type`, and then select **Deploy**:
 
-    - **Name**: **battery-cycles**
+    - **Name**: `battery-cycles`
 
-    - **Description**: **The best AutoML model to predict battery cycles.**
+    - **Description**: `The best AutoML model to predict battery cycles.`
 
     - **Compute type**: Select `ACI`.
 
@@ -292,7 +292,7 @@ To avoid unexpected charges, it is recommended that you clean up all of your lab
 
 ### Task 1: Clean up lab resources
 
-1. Navigate to the Azure Portal and locate the `MCW-AI-Lab` Resource Group you created for this lab.
+1. Navigate to the Azure Portal and locate the `MCW-Machine-Learning` Resource Group you created for this lab.
 
 2. Select **Delete resource group** from the command bar.
 
