@@ -69,7 +69,7 @@ Azure Databricks is an Apache Spark-based analytics platform optimized for Azure
 
     - **Subscription**: Select the subscription you are using for this hands-on lab.
 
-    - **Resource Group**: Select **Create new** and provide the name `MCW-AI-Lab`.
+    - **Resource Group**: Select **Create new** and provide the name `MCW-Machine-Learning`.
 
     - **Location**: Select a region close to you. ***(If you are using an Azure Pass, select South Central US.)***
 
@@ -83,7 +83,7 @@ Azure Databricks is an Apache Spark-based analytics platform optimized for Azure
 
 You have provisioned an Azure Databricks workspace, and now you need to create a new cluster within the workspace.
 
-1. From within Azure portal navigate to your resource group name (e.g., `MCW-AI-Lab`).
+1. From within Azure portal navigate to your resource group name (e.g., `MCW-Machine-Learning`).
 
 2. Next, select your Azure Databricks service from the list.
 
@@ -107,7 +107,7 @@ You have provisioned an Azure Databricks workspace, and now you need to create a
 
     - **Cluster Mode**: **Standard**
 
-    - **Databricks Runtime Version**: **Runtime: 6.6 (Scala 2.11, Spark 2.4.5)**
+    - **Databricks Runtime Version**: **Runtime: 7.0 (Scala 2.12, Spark 3.0.0)**
 
     - **Enable autoscaling**: **Uncheck** this option.
 
@@ -175,7 +175,7 @@ The notebooks you will run depends on certain Python libraries that will need to
 
 3. In the Create Machine Learning Workspace dialog that appears, provide the following values:
 
-    - **Workspace Name**: `AML-workspace`
+    - **Workspace Name**: `mcwmachinelearning`
 
     - **Subscription**: Choose your Azure subscription.
 
