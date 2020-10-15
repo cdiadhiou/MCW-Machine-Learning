@@ -153,8 +153,6 @@ The notebooks you will run depends on certain Python libraries that will need to
 
     ![The Import menu item can be accessed by selecting your username from the list of users in the workspace.](images/azure-databricks-import-menu.png "Import Menu")
 
-    ![The Import menu item can be accessed by selecting your username from the list of users in the workspace.](images/azure-databricks-import-menu.png "Import Menu")
-
 3. On the Import Notebooks dialog, select URL and paste in the following URL:
 
     `https://github.com/microsoft/MCW-Machine-Learning/blob/master/Hands-on%20lab/notebooks/AI%20with%20Databricks%20and%20AML.dbc?raw=true`
