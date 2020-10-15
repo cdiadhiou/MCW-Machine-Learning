@@ -147,9 +147,9 @@ The notebooks you will run depends on certain Python libraries that will need to
 
 ### Task 4: Upload the Databricks notebook archive
 
-1. Within the Azure Databricks Workspace, using the command bar on the left, select Workspace, Users and select your username (the entry with house icon).
+1. Within the Azure Databricks Workspace, using the command bar on the left, select **Workspace**, **Users** and select your username (the entry with house icon).
 
-2. In the blade that appears, select the downwards pointing chevron next to your name, and select Import.
+2. In the blade that appears, select the downwards pointing chevron next to your name, and select **Import**.
 
     ![The Import menu item can be accessed by selecting your username from the list of users in the workspace.](images/azure-databricks-import-menu.png "Import Menu")
 

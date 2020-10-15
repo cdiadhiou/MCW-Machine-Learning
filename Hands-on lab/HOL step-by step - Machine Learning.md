@@ -32,15 +32,15 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
   - [Solution architecture](#solution-architecture)
   - [Requirements](#requirements)
   - [Before the hands-on lab](#before-the-hands-on-lab)
-  - [Exercise 1: Creating a forecast model using automated machine learning](#exercise-1-creating-a-forecast-model-using-automated-machine-learning)
+  - [Exercise 1: Data exploration and preprocessing](#exercise-1-data-exploration-and-preprocessing)
+    - [Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-a-azure-databricks-notebook)
+  - [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)
     - [Task 1: Create an automated machine learning experiment](#task-1-create-an-automated-machine-learning-experiment)
     - [Task 2: Review the experiment run results](#task-2-review-the-experiment-run-results)
-    - [Task 3: Deploy the Best Model](#task-3-deploy-the-best-model)
-  - [Exercise 2: Creating a deep learning model (RNN) for time series data](#exercise-2-creating-a-deep-learning-model-rnn-for-time-series-data)
-    - [Task 1: Create the model using a notebook](#task-1-create-the-model-using-a-notebook)
+    - [Task 3: Perform batch inferencing in Azure DataBricks](#task-3-perform-batch-inferencing-in-azure-databricks)
   - [Exercise 3: Using a forecast model for scoring of streaming telemetry](#exercise-3-using-a-forecast-model-for-scoring-of-streaming-telemetry)
     - [Task 1: Create the streaming job using a notebook](#task-1-create-the-streaming-job-using-a-notebook)
-  - [Exercise 4: Creating, training and tracking a deep learning text classification model with Azure Databricks, MLflow and Azure Machine Learning](#exercise-4-creating-training-and-tracking-a-deep-learning-text-classification-model-with-azure-databricks-mlflow-and-azure-machine-learning)
+  - [Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning](#exercise-4-creating-training-and-tracking-a-deep-learning-text-classification-model-with-mlflow-and-azure-machine-learning)
     - [Task 1: Create, train and track the classification model using a notebook](#task-1-create-train-and-track-the-classification-model-using-a-notebook)
     - [Task 2: Review model performance metrics and training artifacts in Azure Machine Learning workspace](#task-2-review-model-performance-metrics-and-training-artifacts-in-azure-machine-learning-workspace)
   - [After the hands-on lab](#after-the-hands-on-lab)
@@ -80,7 +80,7 @@ The following diagram summarizes the key components and processing steps in the 
 
 ![Vehicle battery telemetry is ingested by an IoT Hub or Event Hub. This data is stored in long term storage, Azure Storage. This data is used by Azure Databricks to train the model that is managed and registered via an Azure Machine Learning workspace. AutoML is also another option that can be used to register a machine learning model. These models are then used for stream data processing and batch data processing in Azure Databricks.](images/lab-architecture.png 'Solution Architecture')
 
-In this lab, models are trained using both Azure Databricks (for deep learning with the PyTorch and Keras frameworks) and Azure Machine Learning compute (for automated machine learning using the user experience in the Azure Machine Learning studio). Models are registered with the Azure Machine Learning Workspace. The data used for model training is read from Azure Storage.
+In this lab, models are trained using Azure Machine Learning compute, for automated machine learning using the user experience in the Azure Machine Learning studio and for deep learning with the PyTorch and Keras frameworks in notebooks. Models are registered with the Azure Machine Learning Workspace. The data used for model training is read from Azure Storage.
 
 The scoring is performed using notebooks running within Azure Databricks notebooks, which show how to load and apply the respective models against the data provided.
 
@@ -96,7 +96,18 @@ The scoring is performed using notebooks running within Azure Databricks noteboo
 
 Refer to the Before the hands-on lab setup guide manual before continuing to the lab exercises.
 
-## Exercise 1: Creating a forecast model using automated machine learning
+## Exercise 1: Data exploration and preprocessing
+
+Duration: 40 minutes
+
+Understanding data through data exploration is one of the core challenges faced today by data engineers and data scientists. Using raw data for modeling can produce misleading results, since data is often noisy and unreliable, and may be missing values. In this exercise, you will explore the raw data, transform and register the  dataset in the Datastore. You will use it to train a forecasting model later in this hands-on-lab. The data preparation steps will be performed on the Azure Databricks cluster.
+
+### Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook
+
+1. Browse to your Azure Databricks Workspace and navigate to AI with Databricks and AML \ 1.0 Data Preparation. This is the notebook you will step through executing in this lab.
+2. Follow the instructions within the notebook to complete the lab exercise.
+
+## Exercise 2: Creating a forecast model using automated machine learning
 
 Duration: 40 minutes
 
@@ -118,39 +129,19 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![In the Automated machine learning section in Azure Machine Learning studio. The "New automated ML run" button is selected.](./images/automl-new-run.png 'Create new automated ML run')
 
-4. Select **+ Create dataset, From web files** to start registering your training data.
+4. Select the `daily-battery-time-series` dataset from the list of registered datasets and then select **Next**. (This dataset was registered as a final step of the previous exercise, from the Azure Databricks notebook.)
 
-    ![From the toolbar menu, the + Create a new dataset menu item is expanded with the From web files option selected.](images/automl-create-dataset-01.png 'Create dataset for automated ML run')
+     ![In the Create a new Automated ML run dialog, select the daily-battery-time-series dataset from the dataset list. The Next button is highlighted.](images/automl-create-dataset-01.png 'Select registered dataset')
 
-5. In the `Basic info` section provide the following information and then select **Next**:
+5. Review the dataset details in the `Configure run` section, by selecting the **View dataset** link next to the dataset name.
 
-   - **Web URL**: `https://databricksdemostore.blob.core.windows.net/data/connected-car/daily-battery-time-series-v2.csv`
-  
-   - **Name**: `daily-battery-time-series`
+    ![The Configure run screen shows the option to review the selected dataset structure. Select the view dataset link next to the dataset name.](images/automl-create-dataset-02.png 'Confirm and create the dataset')
 
-    ![The Create dataset from web files Basic info form is displayed populated with the values outlined above. The Next button at the bottom of the form is selected.](images/automl-create-dataset-02a.png 'Basic info')
-
-6. On the Settings and preview form, set the **Column headers** drop down to **All files have same headers**, and then select **Next**.
-
-    ![The Create dataset from web files Settings and preview form is displayed with the Column headers highlighted with the All files have the same headers value selected.](images/automl-create-dataset-02b.png 'Settings and preview panel')
-
-7. Review the training data schema. Toggle the `Include` switch next to the column name to exclude the `Path`, `Column1`, `Number_Of_Trips`, `Lifetime_Cycles_Used` and `Battery_Rated_Cycles` columns. Select **Next**.
-
-    ![The Create dataset and from web files Schema form is displayed in tabular format. The include toggle values for the columns listed above are switched to the Off position. The Next button is highlighted at the bottom of the form.](images/automl-create-dataset-03.png 'Select Features')
-
-8. Review the dataset details in the `Confirm details` section and select **Create**.
-
-    ![The Confirm details screen shows a summary of the dataset to be created. The Create button is highlighted.](images/automl-create-dataset-04.png 'Confirm and create the dataset')
-
-9. Select the `daily-battery-time-series` dataset and then select **Next**.
-
-    ![In the Create a new Automated ML run, the daily-battery-time-series dataset is selected from the dataset list. The Next button is highlighted.](images/automl-create-dataset-05.png 'Select newly created dataset')
-
-10. Provide the experiment name: `Battery-Cycles` and select **Daily_Cycles_Used** as target column. Select **Create a new compute**.
+6.  Provide the experiment name: `Battery-Cycles` and select **Daily_Cycles_Used** as target column. Select **Create a new compute**.
 
     ![In the Configure run form is populated with the above values. The Create a new compute button is highlighted.](images/automl-create-experiment.png 'Create New Experiment details')
 
-11. For the new compute, provide the following values and then select **Create**:
+7.  For the new compute, provide the following values and then select **Create**:
 
     - **Compute name**: `auto-ml-compute`
   
@@ -164,7 +155,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     > **Note**: The creation of the new compute may take several minutes. Once the process is completed, select **Next** in the `Configure run` section.
 
-12. Select the `Time series forecasting` task type and provide the following values and then select **View additional configuration settings**:
+9.  Select the `Time series forecasting` task type and provide the following values and then select **View additional configuration settings**:
 
     - **Time column**: `Date`
 
@@ -174,7 +165,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![The Select task type form is populated with the values outlined above. The View additional configuration settings link is highlighted.](images/automl-configure-task-01.png 'Configure time series forecasting task')
 
-13. For the automated machine learning run additional configurations, provide the following values and then select **Save**:
+10. For the automated machine learning run additional configurations, provide the following values and then select **Save**:
 
     - **Primary metric**: `Normalized root mean squared error`
 
@@ -186,7 +177,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     > **Note**: We are setting a metric score threshold to limit the training time. In practice, for initial experiments, you will typically only set the training job time to allow AutoML to discover the best algorithm to use for your specific data.
 
-14. Select **Finish** to start the new automated machine learning run.
+11. Select **Finish** to start the new automated machine learning run.
 
     > **Note**: The experiment should run for up to 10 minutes. If the run time exceeds 15 minutes, cancel the run and start a new one (steps 3, 9, 10, 12, 13, and 14). Make sure you provide a higher value for `Metric score threshold` in step 13.
 
@@ -212,39 +203,10 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![The model run page is shown with the Metrics tab selected. A chart is displayed showing the Predicted vs True curve.](images/automl-review-run-05.png 'Predicted vs True curve')
 
-### Task 3: Deploy the Best Model
+### Task 3: Perform batch inferencing in Azure DataBricks
 
-1. From the top toolbar select **Deploy**.
 
-    ![From the toolbar the Deploy button is selected.](images/automl-deploy-best-model-01.png 'Deploy best model')
 
-2. Provide the `Name`, `Description` and `Compute type`, and then select **Deploy**:
-
-    - **Name**: `battery-cycles`
-
-    - **Description**: `The best AutoML model to predict battery cycles.`
-
-    - **Compute type**: Select `ACI`.
-
-    ![The Deploy a model dialog is populated with the values listed above. The Deploy button is selected at the bottom of the form.](images/automl-deploy-best-model-02.png 'Deploy the best model')
-
-3. The model deployment process will register the model, create the deployment image, and deploy it as a scoring webservice in an Azure Container Instance (ACI). To view the deployed model, from Azure Machine Learning studio select **Endpoints icon, Real-time endpoints**.
-
-   ![In the left menu, the Endpoints icon is selected. On the Endpoints screen, the Rea-time endpoints tab is selected and a table is displayed showing the battery-cycles endpoint highlighted.](images/automl-deploy-best-model-03.png 'Deployed model endpoints')
-
-   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful de deployment will have a state of `Healthy`.
-
-4. If you see your model deployed in the above list, you are now ready to continue on to the next exercise.
-
-## Exercise 2: Creating a deep learning model (RNN) for time series data
-
-Duration: 45 minutes
-
-### Task 1: Create the model using a notebook
-
-1. Browse to your Azure Databricks Workspace and open `AI with Databricks and AML \ 1.0 Deep Learning with Time Series`. This is the notebook you will step through executing in this lab.
-
-2. Follow the instructions within the notebook to complete the lab.
 
 ## Exercise 3: Using a forecast model for scoring of streaming telemetry
 
@@ -258,11 +220,11 @@ In this exercise, you will apply the forecast model to a Spark streaming job in 
 
 2. Follow the instructions within the notebook to complete the lab.
 
-## Exercise 4: Creating, training and tracking a deep learning text classification model with Azure Databricks, MLflow and Azure Machine Learning
+## Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning
 
 Duration: 45 minutes
 
-In this exercise, you create a model for classifying component text as compliant or non-compliant. You will train the model on the Azure Databricks cluster and use MLflow integration with Azure Machine Learning to track and log experiment metrics and artifacts in the Azure Machine Learning workspace.
+In this exercise, you create a model for classifying component text as compliant or non-compliant. You will train the model Azure Machine Learning and use MLflow integration with Azure Machine Learning to track and log experiment metrics and artifacts in the Azure Machine Learning workspace.
 
 ### Task 1: Create, train and track the classification model using a notebook
 
