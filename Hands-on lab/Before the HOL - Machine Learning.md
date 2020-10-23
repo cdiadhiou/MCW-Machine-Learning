@@ -107,7 +107,7 @@ You have provisioned an Azure Databricks workspace, and now you need to create a
 
     - **Cluster Mode**: **Standard**
 
-    - **Databricks Runtime Version**: **Runtime: 6.5 (Scala 2.11, Spark 2.4.5)**
+    - **Databricks Runtime Version**: **Runtime: 6.6 (Scala 2.11, Spark 2.4.5)**
 
     - **Enable autoscaling**: **Uncheck** this option.
 
