@@ -27,25 +27,24 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 <!-- TOC -->
 - [Machine Learning hands-on lab step-by-step](#machine-learning-hands-on-lab-step-by-step)   
   - [Abstract and learning objectives](#abstract-and-learning-objectives)
-  - [Overview](#overview)
-  - [Solution architecture](#solution-architecture)
-  - [Requirements](#requirements)
-  - [Before the hands-on lab](#before-the-hands-on-lab)
-  - [Exercise 1: Data exploration and preprocessing](#exercise-1-data-exploration-and-preprocessing)
-    - [Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-a-azure-databricks-notebook)
-  - [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)
-    - [Task 1: Create an automated machine learning experiment](#task-1-create-an-automated-machine-learning-experiment)
-    - [Task 2: Review the experiment run results](#task-2-review-the-experiment-run-results)
-    - [Task 3: Perform batch inferencing in Azure DataBricks](#task-3-perform-batch-inferencing-in-azure-databricks)
-  - [Exercise 3: Using a forecast model for scoring of streaming telemetry](#exercise-3-using-a-forecast-model-for-scoring-of-streaming-telemetry)
-    - [Task 1: Create the streaming job using a notebook](#task-1-create-the-streaming-job-using-a-notebook)
-  - [Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning](#exercise-4-creating-training-and-tracking-a-deep-learning-text-classification-model-with-mlflow-and-azure-machine-learning)
-    - [Task 1: Create, train and track the classification model using a notebook](#task-1-create-train-and-track-the-classification-model-using-a-notebook)
-    - [Task 2: Review model performance metrics and training artifacts in Azure Machine Learning workspace](#task-2-review-model-performance-metrics-and-training-artifacts-in-azure-machine-learning-workspace)
-  - [After the hands-on lab](#after-the-hands-on-lab)
-    - [Task 1: Clean up lab resources](#task-1-clean-up-lab-resources)
-
-<!-- /TOC -->
+  - [Overview](#overview)   
+    - [Solution architecture](#solution-architecture)
+    - [Requirements](#requirements) 
+    - [Before the hands-on lab](#before-the-hands-on-lab)    
+    - [Exercise 1: Data exploration and preprocessing](#exercise-1-data-exploration-and-preprocessing)        
+      - [Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-a-azure-databricks-notebook)
+    -  [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)        
+       - [Task 1: Create an automated machine learning experiment](#task-1-create-an-automated-machine-learning-experiment) 
+       - [Task 2: Review the experiment run results](#task-2-review-the-experiment-run-results) 
+       - [Task 3: Deploy best model](#task-3-deploy-best-model)       
+       - [Task 4: Perform batch inferencing in Azure DataBricks](#task-4-perform-batch-inferencing-in-azure-databricks)
+    - [Exercise 3: Using a forecast model for scoring of streaming telemetry](#exercise-3-using-a-forecast-model-for-scoring-of-streaming-telemetry)        
+      - [Task 1: Create the streaming job using a notebook](#task-1-create-the-streaming-job-using-a-notebook)
+    - [Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning](#exercise-4-creating-training-and-tracking-a-deep-learning-text-classification-model-with-mlflow-and-azure-machine-learning) 
+      -  [Task 1: Create, train and track the classification model using a notebook](#task-1-create-train-and-track-the-classification-model-using-a-notebook)
+      - [Task 2: Review model performance metrics and training artifacts in Azure Machine Learning workspace](#task-2-review-model-performance-metrics-and-training-artifacts-in-azure-machine-learning-workspace)   
+    - [After the hands-on lab](#after-the-hands-on-lab)
+      - [Task 1: Clean up lab resources](#task-1-clean-up-lab-resources)<!-- /TOC -->
 
 # Machine Learning hands-on lab step-by-step
 
@@ -136,7 +135,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![The Configure run screen shows the option to review the selected dataset structure. Select the view dataset link next to the dataset name.](images/automl-create-dataset-02.png 'Confirm and create the dataset')
 
-6.  Provide the experiment name: `Battery-Cycles` and select **Daily_Cycles_Used** as target column. Select **Create a new compute**.
+6.  Provide the experiment name: `Battery-Cycles-Forecast` and select **Daily_Cycles_Used** as target column. Select **Create a new compute**.
 
     ![In the Configure run form is populated with the above values. The Create a new compute button is highlighted.](images/automl-create-experiment.png 'Create New Experiment details')
 
@@ -202,7 +201,31 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![The model run page is shown with the Metrics tab selected. A chart is displayed showing the Predicted vs True curve.](images/automl-review-run-05.png 'Predicted vs True curve')
 
-### Task 3: Perform batch inferencing in Azure DataBricks
+### Task 3: Deploy the Best Model
+
+1. From the top toolbar select **Deploy**.
+
+    ![From the toolbar the Deploy button is selected.](images/automl-deploy-best-model-01.png 'Deploy best model')
+
+2. Provide the `Name`, `Description` and `Compute type`, and then select **Deploy**:
+
+    - **Name**: **battery-cycles**
+
+    - **Description**: **The best AutoML model to predict battery cycles.**
+
+    - **Compute type**: Select `ACI`.
+
+    ![The Deploy a model dialog is populated with the values listed above. The Deploy button is selected at the bottom of the form.](images/automl-deploy-best-model-02.png 'Deploy the best model')
+
+3. The model deployment process will register the model, create the deployment image, and deploy it as a scoring webservice in an Azure Container Instance (ACI). To view the deployed model, from Azure Machine Learning studio select **Endpoints icon, Real-time endpoints**.
+
+   ![In the left menu, the Endpoints icon is selected. On the Endpoints screen, the Rea-time endpoints tab is selected and a table is displayed showing the battery-cycles endpoint highlighted.](images/automl-deploy-best-model-03.png 'Deployed model endpoints')
+
+   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful de deployment will have a state of `Healthy`.
+
+4. If you see your model deployed in the above list, you are now ready to continue on to the next exercise.
+   
+### Task 4: Perform batch inferencing in Azure DataBricks
 
 
 
