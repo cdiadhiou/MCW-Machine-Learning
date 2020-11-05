@@ -228,7 +228,7 @@ With regards to the battery telemetry, the subject matter experts at Trey have e
 | 1/4/2013 | 0 | 3 | 5 | 60.63840306 | 0.149188457 | 0.592380970 | 200
 | 1/5/2013 | 0 | 4 | 5 | 62.64690998 | 0.154129980 | 0.746510950 | 200
 
-Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part.
+Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part. There are, however, concerns about the quality of the battery telemetry data, so Trey Research would like to be sure that, before being fed into the Machine Learning process, data is properly cleansed and prepared.
 
 In building this PoC, Trey Research wants to understand how they might use machine learning or deep learning in both scenarios, and standardize the platform that would support the data processing, model management and inferencing aspects of each.
 
@@ -308,13 +308,15 @@ _Forecasting battery failure_
 
 1. At a high level, describe the steps to apply a forecasting model to predict battery failure pending within the next 30 days.
 
-2. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
+2. Describe how Trey would approach the data cleansing and preparation process.
 
-3. Can this model be built using machine learning or does it require deep learning?
+3. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
 
-4. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+4. Can this model be built using machine learning or does it require deep learning?
 
-5. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
+5. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+
+6. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
 
 _Automated machine learning_
 
@@ -468,7 +470,7 @@ _High-level architecture_
 
     In the solution the component text data is retrieved from the existing Azure SQL Database store. The labeled data provided is used within Azure Databricks to train a model that can classify the components as compliant or non-compliant. During model training, the model logs and performance metrics are collected by Azure Machine Learning into the Workspace. The model that is created is also registered there so that it can be easily retrieved and used for later evaluation or scoring. Trey can score the component descriptions in batch using Azure Databricks, where by their notebook code retrieves the trained compliance model from the Azure Machine Learning Workspace. During this process they can evaluate vehicle by vehicle and issue an alert if any vehicle has been detected with out of compliance components. An alert is issued by inserting a new document into a Cosmos DB collection. An Azure Function monitors the Cosmos DB change feed and creates a new cloud to device message to send to the vehicle via IoT Hub. Service facilities, who would not receive these pushed alerts, would be able to lookup the alerts by querying from Cosmos DB.
 
-    The process for the battery failure alerting works similarly. Trey would start by storing the historical data already have in Azure Storage blobs. This historical data would be used to train the model in Azure Databricks and register it with Azure Machine Learning. With trained model in hand, Trey could load create a notebook in Azure Databricks that uses Spark Structured Streaming to apply the model, make its forecasts and issue any alerts by writing documents to Cosmos DB for batteries forecasted to fail within 30 days. The data scored in this case would be the daily trip telemetry received from the vehicle, ingested into IoT Hub and directly read from by the Structured Streaming query. Additionally, Trey would want to archive all of the telemetry received via IoT Hub to Azure Storage blobs for the purposes of collecting historical data they can later use to improve their models and create new ones. The issued alerts would be queried or sent in the same way as described for component compliance alerts.
+    The process for the battery failure alerting works similarly. Trey would start by storing the historical data already have in Azure Storage blobs. This historical data would be cleaned and prepared, then used to train the model in Azure Databricks and register it with Azure Machine Learning. With the trained model in hand, Trey could load create a notebook in Azure Databricks that uses Spark Structured Streaming to apply the model, make its forecasts and issue any alerts by writing documents to Cosmos DB for batteries forecasted to fail within 30 days. The data scored in this case would be the daily trip telemetry received from the vehicle, ingested into IoT Hub and directly read from by the Structured Streaming query. Additionally, Trey would want to archive all of the telemetry received via IoT Hub to Azure Storage blobs for the purposes of collecting historical data they can later use to improve their models and create new ones. The issued alerts would be queried or sent in the same way as described for component compliance alerts.
 
 _Classifying component descriptions text data_
 
@@ -494,19 +496,23 @@ _Forecasting battery failure_
 
     In a forecasting scenario, time-stamped data is provided, and the goal is to be able to forecast a value a certain number of periods in the future by looking at historical data. In Trey's case, they could use their existing daily battery telemetry to train a model that forecast the battery cycles used in any given day, for 30 days out. They would sum the battery cycles used from the historical data plus the forecast data and if the result exceeds the expected battery life, they could predict this as a pending failure.
 
-2. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
+2. Describe how Trey would approach the data cleansing and preparation process.
+
+    First, data needs to be analyzed using a combination of numerical and visual methods (e.g., display the time series and attempt to identify any anomalies visually). Next, we validate the preliminary hypothesis related to data issues using proper metrics. Once we complete the identification and validation of the problems, we eliminate each one of them until the data is clean.
+
+3. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
 
     When forecasting against time-series data Trey should pick a forecasting model so as to take advantage of the temporal signals in the data. While a regression could work in this scenario, it is not common practice to use a regression when time series data is available.
 
-3. Can this model be built using machine learning or does it require deep learning?
+4. Can this model be built using machine learning or does it require deep learning?
 
     This model can be built using forecasting techniques from either machine learning or deep learning.
 
-4. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+5. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
 
     Generally, when forecasting against time-series data the predictions desired should be informed by all the historical data, but place more emphasis on more recent data. Recurrent Neural Networks (RNN's) provide such capability, and that is why they are frequently the first neural network architecture attempted with time-series data.
 
-5. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
+6. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
 
     Trey should use the model within notebooks running in Azure Databricks, and apply the model using Spark Streaming to forecast results on micro-batches of battery telemetry as they arrive.  
 
