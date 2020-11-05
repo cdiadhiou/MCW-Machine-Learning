@@ -102,7 +102,7 @@ With regards to the battery telemetry, the subject matter experts at Trey have e
 | 1/4/2013 | 0 | 3 | 5 | 60.63840306 | 0.149188457 | 0.592380970 | 200
 | 1/5/2013 | 0 | 4 | 5 | 62.64690998 | 0.154129980 | 0.746510950 | 200
 
-Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part.
+Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part. There are, however, concerns about the quality of the battery telemetry data, so Trey Research would like to be sure that, before being fed into the Machine Learning process, data is properly cleansed and prepared.
 
 In building this PoC, Trey Research wants to understand how they might use machine learning or deep learning in both scenarios, and standardize the platform that would support the data processing, model management and inferencing aspects of each.
 
@@ -182,13 +182,15 @@ _Forecasting battery failure_
 
 1. At a high level, describe the steps to apply a forecasting model to predict battery failure pending within the next 30 days.
 
-2. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
+2. Describe how Trey would approach the data cleansing and preparation process.
 
-3. Can this model be built using machine learning or does it require deep learning?
+3. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
 
-4. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+4. Can this model be built using machine learning or does it require deep learning?
 
-5. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
+5. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+
+6. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
 
 _Automated machine learning_
 
