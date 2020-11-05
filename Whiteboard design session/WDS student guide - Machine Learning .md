@@ -273,11 +273,11 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 |    |            |
 |----------|:-------------:|
 | **Description** | **Links** |
-|Azure Databricks documentation |https://docs.microsoft.com/en-us/azure/azure-databricks/|
-|Azure Machine Learning documentation|https://docs.microsoft.com/en-us/azure/machine-learning/service/|
-|Microsoft Learn - Data Scientist|https://docs.microsoft.com/en-us/learn/browse/?roles=data-scientist|
-|PyTorch|https://pytorch.org|
-|Keras|https://keras.io/|
-| GloVe: Global Vectors for Word Representation | <https://nlp.stanford.edu/projects/glove/>  |
-| MLflow | <https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow> |
+| Azure Databricks documentation | https://docs.microsoft.com/en-us/azure/azure-databricks |
+| Azure Machine Learning service documentation | https://docs.microsoft.com/en-us/azure/machine-learning/service |
+| Microsoft Learn - Data Scientist | https://docs.microsoft.com/en-us/learn/browse/?roles=data-scientist |
+| PyTorch | https://pytorch.org |
+| Keras | https://keras.io |
+| GloVe: Global Vectors for Word Representation | https://nlp.stanford.edu/projects/glove |
+| MLflow | https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow |
 | Responsible ML in Azure Machine Learning | https://azure.microsoft.com/en-us/blog/build-ai-you-can-trust-with-responsible-ml |
