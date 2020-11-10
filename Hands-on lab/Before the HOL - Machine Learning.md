@@ -107,7 +107,7 @@ You have provisioned an Azure Databricks workspace, and now you need to create a
 
     - **Cluster Mode**: **Standard**
 
-    - **Databricks Runtime Version**: **Runtime: 6.6 (Scala 2.11, Spark 2.4.5)**
+    - **Databricks Runtime Version**: **Runtime: 7.3 LTS (Scala 2.12, Spark 3.0.1)**
 
     - **Enable autoscaling**: **Uncheck** this option.
 
@@ -139,7 +139,7 @@ The notebooks you will run depends on certain Python libraries that will need to
 
     ![In the lab cluster, the Libraries tab is selected and the Install New button is highlighted.](images/azure-databricks-cluster-libraries.png "Install New")
 
-4. In the Library Source, select **PyPi** and in the Package text box type `azureml-sdk[automl]` and select **Install**.
+4. In the Library Source, select **PyPi** and in the Package text box type `azureml-sdk[databricks]` and select **Install**.
 
     ![The Install Library dialog showing the PyPi item selected as the source and the azureml-sdk value entered in the package textbox.](images/azure-databricks-install-library.png "Install Library")
 
