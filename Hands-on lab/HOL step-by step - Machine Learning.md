@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-June 2020
+September 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -50,9 +50,9 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 ## Abstract and learning objectives
 
-In this hands-on lab, you will use Azure Databricks in combination with Azure Machine Learning to build, train and deploy desired models. You will learn how to train a forecasting model against time-series data, without any code, by using automated machine learning, and how to score data in real-time using Spark Structure Streaming within Azure Databricks.  You will create a recurrent neural network (RNN) model using PyTorch in Azure Databricks that can be used to forecast against time-series data and train a Natural Language Processing (NLP) text classification model using Keras. You will also learn how to use MLflow for managing experiments run directly on the Azure Databricks cluster and how MLflow can seamlessly log metrics and training artifacts in your Azure Machine Learning workspace.
+In this lab, you will use Azure Databricks in combination with Azure Machine Learning to build, train and deploy desired models. You will learn how to train a forecasting model against time-series data, without any code, by using automated machine learning, and how to interpret trained machine learning models. You will also learn how to use MLflow for managing experiments run directly on the Azure Databricks cluster and how MLflow can seamlessly log metric and training artifacts in your Azure Machine Learning workspace. You will create a recurrent neural network (RNN) model using PyTorch in Azure Databricks that can be used to forecast against time-series data and train a Natural Language Processing (NLP) text classification model based on Long Short-Term Memory (LSTM) recurrent neural network and Keras.
 
-At the end of this lab, you will improve your ability to build solutions leveraging Azure Machine Learning and Azure Databricks.
+At the end of this lab, you will be better able to build solutions leveraging Azure Machine Learning and Azure Databricks.
 
 ## Overview
 
@@ -62,7 +62,7 @@ Trey Research is looking to provide the next generation experience for connected
 
 In the first scenario, Trey Research recently instituted new regulations defining what parts are compliant or out of compliance. Rather than rely on their technicians to assess compliance, they would like to automatically assess the compliance based on component notes already entered by authorized technicians. Specifically, they are looking to leverage Deep Learning technologies with Natural Language Processing techniques to scan through vehicle specification documents to find compliance issues with new regulations. Then each car is evaluated for out compliance components.
 
-In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the telemetry stream of time series data that the car provides about how the battery performs when the car is started, how it is charging while running and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
+In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the time series-based telemetry data that the car provides. The data contains details about how the battery performs when the vehicle is started, how it is charging while running, and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
 
 Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part.
 
@@ -102,14 +102,15 @@ Understanding data through data exploration is one of the core challenges faced 
 
 ### Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook
 
-1. Browse to your Azure Databricks Workspace and navigate to AI with Databricks and AML \ 1.0 Data Preparation. This is the notebook you will step through executing in this lab.
-2. Follow the instructions within the notebook to complete the lab exercise.
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 1.0 Data Preparation`. This is the notebook you will step through executing in this exercise.
+
+2. Follow the instructions within the notebook to complete the exercise.
 
 ## Exercise 2: Creating a forecast model using automated machine learning
 
-Duration: 40 minutes
+Duration: 60 minutes
 
-In this exercise, you will create a model that predicts battery failure from time-series data using the visual interface to automated machine learning in an Azure Machine Learning workspace.
+In this exercise, you will create a model that predicts battery failure from time-series data using the visual interface to automated machine learning in an Azure Machine Learning workspace. You will deploy the best model to Azure Container Instances (ACI) and you will also perform batch scoring from a Databricks notebook.
 
 ### Task 1: Create an automated machine learning experiment
 
@@ -225,22 +226,23 @@ In this exercise, you will create a model that predicts battery failure from tim
 
 4. If you see your model deployed in the above list, you are now ready to continue on to the next exercise.
    
-### Task 4: Perform batch inferencing in Azure DataBricks
+### Task 4: Perform batch scoring in Azure DataBricks
 
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 2.0 Batch Scoring for Timeseries`. This is the notebook you will step through executing in this exercise.
 
+2. Follow the instructions within the notebook to complete the exercise.
 
-
-## Exercise 3: Using a forecast model for scoring of streaming telemetry
+## Exercise 3: Creating a deep learning model (RNN) for time series data
 
 Duration: 45 minutes
 
-In this exercise, you will apply the forecast model to a Spark streaming job in order to make predictions against streaming data.
+In this exercise, you will create a deep learning model (using a RNN - Recurrent Neural Network), and you will apply the forecast model to a Spark streaming job in order to make predictions against streaming data.
 
-### Task 1: Create the streaming job using a notebook
+### Task 1: Create the deep learning model and start a streaming job using a notebook
 
-1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 2.0 Stream Scoring`. This is the notebook you will step through executing in this lab.
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 3.0 Deep Learning with Time Series`. This is the notebook you will step through executing in this exercise.
 
-2. Follow the instructions within the notebook to complete the lab.
+2. Follow the instructions within the notebook to complete the exercise.
 
 ## Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning
 
@@ -250,9 +252,9 @@ In this exercise, you create a model for classifying component text as compliant
 
 ### Task 1: Create, train and track the classification model using a notebook
 
-1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 3.0 Deep Learning with Text`. This is the notebook you will step through executing in this lab.
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 4.0 Deep Learning with Text`. This is the notebook you will step through executing in this exercise.
 
-2. Follow the instructions within the notebook to complete the lab.
+2. Follow the instructions within the notebook to complete the exercise.
 
 ### Task 2: Review model performance metrics and training artifacts in Azure Machine Learning workspace
 
@@ -267,6 +269,18 @@ In this exercise, you create a model for classifying component text as compliant
 3. Next, select **Outputs + logs, training_results.png** to review the model training artifacts logged using MLflow. In this section, you can review the curves showing both accuracy and loss as the model training progress. You can also observe that MLflow logs the trained model and the training history with Azure Machine Learning workspace.
 
    ![On the Run Details page, the Output + Logs tab is selected, and the training_results.png item is selected in a list on the left. The image is displayed showing charts of Training and validation accuracy, and Training and validation loss.](images/mlflow_3.png 'Model Training Artifacts')
+
+## Exercise 5: Evaluate model interpretability
+
+Duration: 20 minutes
+
+In this exercise, you will interpret the behavior of one of the models trained in previous exercises.
+
+### Task 1: Create the deep learning model and start a streaming job using a notebook
+
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 5.0 Model Interpretability`. This is the notebook you will step through executing in this exercise.
+
+2. Follow the instructions within the notebook to complete the exercise.
 
 ## After the hands-on lab
 
