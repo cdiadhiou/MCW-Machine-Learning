@@ -9,7 +9,7 @@ Hands-on lab step-by-step
 </div>
 
 <div class="MCWHeader3">
-September 2020
+November 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -32,7 +32,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Requirements](#requirements) 
     - [Before the hands-on lab](#before-the-hands-on-lab)    
     - [Exercise 1: Data exploration and preprocessing](#exercise-1-data-exploration-and-preprocessing)        
-      - [Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-a-azure-databricks-notebook)
+      - [Task 1: Load, explore and prepare the dataset using an Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-an-azure-databricks-notebook)
     -  [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)        
        - [Task 1: Create an automated machine learning experiment](#task-1-create-an-automated-machine-learning-experiment) 
        - [Task 2: Review the experiment run results](#task-2-review-the-experiment-run-results) 
@@ -100,7 +100,7 @@ Duration: 40 minutes
 
 Understanding data through data exploration is one of the core challenges faced today by data engineers and data scientists. Using raw data for modeling can produce misleading results, since data is often noisy and unreliable, and may be missing values. In this exercise, you will explore the raw data, transform and register the  dataset in the Datastore. You will use it to train a forecasting model later in this hands-on-lab. The data preparation steps will be performed on the Azure Databricks cluster.
 
-### Task 1: Load, explore and prepare the dataset using a Azure Databricks notebook
+### Task 1: Load, explore and prepare the dataset using an Azure Databricks notebook
 
 1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 1.0 Data Preparation`. This is the notebook you will step through executing in this exercise.
 
@@ -110,7 +110,7 @@ Understanding data through data exploration is one of the core challenges faced 
 
 Duration: 60 minutes
 
-In this exercise, you will create a model that predicts battery failure from time-series data using the visual interface to automated machine learning in an Azure Machine Learning workspace. You will deploy the best model to Azure Container Instances (ACI) and you will also perform batch scoring from a Databricks notebook.
+In this exercise, you will create a model that predicts battery failure from time-series data using the visual interface to automated machine learning in an Azure Machine Learning workspace. You will deploy the best model to Azure Container Instances (ACI), and you will also perform batch scoring from a Databricks notebook.
 
 ### Task 1: Create an automated machine learning experiment
 
@@ -222,7 +222,7 @@ In this exercise, you will create a model that predicts battery failure from tim
 
    ![In the left menu, the Endpoints icon is selected. On the Endpoints screen, the Rea-time endpoints tab is selected and a table is displayed showing the battery-cycles endpoint highlighted.](images/automl-deploy-best-model-03.png 'Deployed model endpoints')
 
-   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful de deployment will have a state of `Healthy`.
+   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds, but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful de deployment will have a state of `Healthy`.
 
 4. If you see your model deployed in the above list, you are now ready to continue on to the next exercise.
    
