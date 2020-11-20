@@ -9,7 +9,7 @@ Before the hands-on lab setup guide
 </div>
 
 <div class="MCWHeader3">
-June 2020
+November 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -69,7 +69,7 @@ Azure Databricks is an Apache Spark-based analytics platform optimized for Azure
 
     - **Subscription**: Select the subscription you are using for this hands-on lab.
 
-    - **Resource Group**: Select **Create new** and provide the name `MCW-AI-Lab`.
+    - **Resource Group**: Select **Create new** and provide the name `MCW-Machine-Learning`.
 
     - **Location**: Select a region close to you. ***(If you are using an Azure Pass, select South Central US.)***
 
@@ -83,7 +83,7 @@ Azure Databricks is an Apache Spark-based analytics platform optimized for Azure
 
 You have provisioned an Azure Databricks workspace, and now you need to create a new cluster within the workspace.
 
-1. From within Azure portal navigate to your resource group name (e.g., `MCW-AI-Lab`).
+1. From within Azure portal navigate to your resource group name (e.g., `MCW-Machine-Learning`).
 
 2. Next, select your Azure Databricks service from the list.
 
@@ -111,7 +111,7 @@ You have provisioned an Azure Databricks workspace, and now you need to create a
 
     - **Enable autoscaling**: **Uncheck** this option.
 
-    - **Auto Termination**: Leave **checked** and in the text box enter `120`.
+    - **Terminate after ___ minutes of inactivity**: Leave **checked** and in the text box enter `120`.
 
     - **Worker Type**: **Standard_DS3_v2**
 
@@ -147,9 +147,11 @@ The notebooks you will run depends on certain Python libraries that will need to
 
 ### Task 4: Upload the Databricks notebook archive
 
-1. Within the Azure Databricks Workspace, using the command bar on the left, select Workspace, Users and select your username (the entry with house icon).
+1. Within the Azure Databricks Workspace, using the command bar on the left, select **Workspace**, **Users** and select your username (the entry with house icon).
 
-2. In the blade that appears, select the downwards pointing chevron next to your name, and select Import.
+2. In the blade that appears, select the downwards pointing chevron next to your name, and select **Import**.
+
+    ![The Import menu item can be accessed by selecting your username from the list of users in the workspace.](images/azure-databricks-import-menu.png "Import Menu")
 
 3. On the Import Notebooks dialog, select URL and paste in the following URL:
 
@@ -173,7 +175,7 @@ The notebooks you will run depends on certain Python libraries that will need to
 
 3. In the Create Machine Learning Workspace dialog that appears, provide the following values:
 
-    - **Workspace Name**: `AML-workspace`
+    - **Workspace Name**: `mcwmachinelearning`
 
     - **Subscription**: Choose your Azure subscription.
 

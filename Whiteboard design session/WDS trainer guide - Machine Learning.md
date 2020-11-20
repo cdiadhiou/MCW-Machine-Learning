@@ -9,7 +9,7 @@ Whiteboard design session trainer guide
 </div>
 
 <div class="MCWHeader3">
-June 2020
+November 2020
 </div>
 
 Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
@@ -170,7 +170,7 @@ When participants are doing activities, you can **look ahead to refresh your mem
 
 ## Abstract and learning objectives
 
-In this whiteboard design session, you will work with a group to design and implement a solution that combines Azure Databricks with Azure Machine Learning to build, train and deploy the machine learning and deep learning models. You will learn how to use automated machine learning, model lifecycle management from training to deployment, in batch and real-time inferencing scenarios, and construct deep learning models for Natural Language Processing (NLP) in text classification and forecasting against time-series data. You will also learn how to use MLflow for managing experiments run directly on the Azure Databricks cluster and how MLflow can seamlessly log metrics and training artifacts in your Azure Machine Learning workspace. Finally, you’ll learn to compare data with PyTorch and Keras for deep learning.
+In this whiteboard design session, you will work with a group to design and implement a solution that combines Azure Databricks with Azure Machine Learning to build, train, and deploy machine learning and deep learning models. You will learn how to prepare data for training and use automated machine learning and model lifecycle management from training to deployment (in batch and real-time inferencing scenarios). You will also learn to build deep learning models for Natural Language Processing (NLP) in text classification and forecasting against time-series data and address the model interpretability problem. Finally, you will learn how to use MLflow for managing experiments run directly on the Azure Databricks cluster and how MLflow can seamlessly log metrics and training artifacts in your Azure Machine Learning workspace. In the process, you will also get to compare data with PyTorch and Keras for deep learning.
 
 At the end of this workshop, you will have a deeper understanding of the capabilities and implementation solutions when leveraging Azure Machine Learning and Azure Databricks.
 
@@ -216,7 +216,7 @@ For example:
 
 The labels present in this data are 0 for compliant, 1 for non-compliant. Trey has already provisioned an Azure SQL Database containing their entire catalog of component descriptions, as well as labelled component data they expect to use in training the model.
 
-In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the telemetry stream of time series data that the car provides about how the battery performs when the car is started, how it is charging while running and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
+In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the time series-based telemetry data that the car provides. The data contains details about how the battery performs when the vehicle is started, how it is charging while running, and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
 
 With regards to the battery telemetry, the subject matter experts at Trey have explained that batteries are manufactured to a specification indicating how many cycles (that is complete charge, discharge cycles) they can handle before their performance starts to degrade (which indicates a good point to suggest replacing the battery). Effectively, the daily cycles consumed is like a clock counting up towards battery's rated lifecycle, approximating the battery's lifespan. In their solution, they can collect telemetry from a car on a daily basis, collecting data about the duration (in minutes) of the trips the car took during the previous day. For their prototype, they have provided historical data for batteries that have reached their replacement point. For a single battery, the telemetry looks similar to the following:
 
@@ -228,11 +228,13 @@ With regards to the battery telemetry, the subject matter experts at Trey have e
 | 1/4/2013 | 0 | 3 | 5 | 60.63840306 | 0.149188457 | 0.592380970 | 200
 | 1/5/2013 | 0 | 4 | 5 | 62.64690998 | 0.154129980 | 0.746510950 | 200
 
-Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part.
+Upon detection of an out of compliance component or a battery at risk of failure, they would like to be able to send an alert directly to the customer inviting them to schedule a service appointment to replace the part. There are, however, concerns about the quality of the battery telemetry data, so Trey Research would like to be sure that, before being fed into the Machine Learning process, data is properly cleansed and prepared.
 
 In building this PoC, Trey Research wants to understand how they might use machine learning or deep learning in both scenarios, and standardize the platform that would support the data processing, model management and inferencing aspects of each.
 
 They are also interested to learn what new capabilities Azure provides that might help them to integrate with their existing investments in MLflow for managing machine learning experiments. Furthermore, they would also like to understand how Azure might help them to document and explain the models that are created to non-data scientists or might accelerate their time to creating production ready, performant models.
+
+The CIO of the company understands that a large part of the company's success in the AI space depends on understanding and explaining the Machine Learning models they produce. Consequently, one of the essential expectations during the PoC is to identify capabilities related to model interpretability.
 
 Finally, they would like to be able to easily create dashboards that summarize the alerts generated so they can observe the solution in operation.
 
@@ -255,6 +257,8 @@ Finally, they would like to be able to easily create dashboards that summarize t
 3. We have heard Azure Machine Learning supports automated machine learning; can we use automated machine learning to create models using deep learning? Can we really expect a non-data scientist to create performant models using these tools?  
 
 4. Some of our team has worked with Azure Databricks, and they are confused by the overlap with Azure Machine Learning. How should we be thinking about when to use which?
+
+5. We have heard a lot about how complicated and opaque trained deep learning models are. How is it even possible to attempt to explain them?
 
 ### Infographic for common scenarios
 
@@ -304,13 +308,15 @@ _Forecasting battery failure_
 
 1. At a high level, describe the steps to apply a forecasting model to predict battery failure pending within the next 30 days.
 
-2. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
+2. Describe how Trey would approach the data cleansing and preparation process.
 
-3. Can this model be built using machine learning or does it require deep learning?
+3. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
 
-4. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+4. Can this model be built using machine learning or does it require deep learning?
 
-5. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
+5. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+
+6. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
 
 _Automated machine learning_
 
@@ -395,13 +401,14 @@ Directions: Tables reconvene with the larger group to hear the facilitator/SME s
 |    |            |
 |----------|:-------------:|
 | **Description** | **Links** |
-|Azure Databricks documentation |https://docs.microsoft.com/en-us/azure/azure-databricks/|
-|Azure Machine Learning service documentation|https://docs.microsoft.com/en-us/azure/machine-learning/service/|
-|Microsoft Learn - Data Scientist|https://docs.microsoft.com/en-us/learn/browse/?roles=data-scientist|
-|PyTorch|https://pytorch.org|
-|Keras|https://keras.io/|
-| GloVe: Global Vectors for Word Representation | <https://nlp.stanford.edu/projects/glove/>  |
-| MLflow | <https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow> |
+| Azure Databricks documentation | https://docs.microsoft.com/en-us/azure/azure-databricks |
+| Azure Machine Learning service documentation | https://docs.microsoft.com/en-us/azure/machine-learning/service |
+| Microsoft Learn - Data Scientist | https://docs.microsoft.com/en-us/learn/browse/?roles=data-scientist |
+| PyTorch | https://pytorch.org |
+| Keras | https://keras.io |
+| GloVe: Global Vectors for Word Representation | https://nlp.stanford.edu/projects/glove |
+| MLflow | https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow |
+| Responsible ML in Azure Machine Learning | https://azure.microsoft.com/en-us/blog/build-ai-you-can-trust-with-responsible-ml |
 
 # Machine Learning whiteboard design session trainer guide
 
@@ -461,9 +468,9 @@ _High-level architecture_
 
     ![Compliance and battery alerting AI solution diagram as described in the text that follows.](images/preferred-solution-overview.png 'High-level architecture')
 
-    In the solution the component text data is retrieved from the existing Azure SQL Database store. The labeled data provided is used within Azure Databricks to train a model that can classify the components as compliant or non-compliant. During model training, the model logs and performance metrics are collected by Azure Machine Learning into the Workspace. The model that is created is also registered there so that it can be easily retrieved and used for later evaluation or scoring. Trey can score the component descriptions in batch using Azure Databricks, where by their notebook code retrieves the trained compliance model from the Azure Machine Learning Workspace. During this process they can evaluate vehicle by vehicle and issue an alert if any vehicle has been detected with out of compliance components. An alert is issued by inserting a new document into a Cosmos DB collection. An Azure Function monitors the Cosmos DB change feed and creates a new cloud to device message to send to the vehicle via IoT Hub. Service facilities, who would not receive these pushed alerts, would be able to lookup the alerts by querying from Cosmos DB.
+    In the solution the component text data is retrieved from the existing Azure SQL Database store. The labeled data provided is used within Azure Databricks to train a model that can classify the components as compliant or non-compliant. During model training, the model logs and performance metrics are collected by Azure Machine Learning into the Workspace. The model that is created is also registered there so that it can be easily retrieved and used for later evaluation or scoring. Trey can score the component descriptions in batch using Azure Databricks, whereby their notebook code retrieves the trained compliance model from the Azure Machine Learning Workspace. During this process they can evaluate vehicle by vehicle and issue an alert if any vehicle has been detected with out of compliance components. An alert is issued by inserting a new document into a Cosmos DB collection. An Azure Function monitors the Cosmos DB change feed and creates a new cloud to device message to send to the vehicle via IoT Hub. Service facilities, who would not receive these pushed alerts, would be able to lookup the alerts by querying from Cosmos DB.
 
-    The process for the battery failure alerting works similarly. Trey would start by storing the historical data already have in Azure Storage blobs. This historical data would be used to train the model in Azure Databricks and register it with Azure Machine Learning. With trained model in hand, Trey could load create a notebook in Azure Databricks that uses Spark Structured Streaming to apply the model, make its forecasts and issue any alerts by writing documents to Cosmos DB for batteries forecasted to fail within 30 days. The data scored in this case would be the daily trip telemetry received from the vehicle, ingested into IoT Hub and directly read from by the Structured Streaming query. Additionally, Trey would want to archive all of the telemetry received via IoT Hub to Azure Storage blobs for the purposes of collecting historical data they can later use to improve their models and create new ones. The issued alerts would be queried or sent in the same way as described for component compliance alerts.
+    The process for the battery failure alerting works similarly. Trey would start by storing the historical data already have in Azure Storage blobs. This historical data would be cleaned and prepared, then used to train the model in Azure Databricks and register it with Azure Machine Learning. With the trained model in hand, Trey could load create a notebook in Azure Databricks that uses Spark Structured Streaming to apply the model, make its forecasts and issue any alerts by writing documents to Cosmos DB for batteries forecasted to fail within 30 days. The data scored in this case would be the daily trip telemetry received from the vehicle, ingested into IoT Hub and directly read from by the Structured Streaming query. Additionally, Trey would want to archive all of the telemetry received via IoT Hub to Azure Storage blobs for the purposes of collecting historical data they can later use to improve their models and create new ones. The issued alerts would be queried or sent in the same way as described for component compliance alerts.
 
 _Classifying component descriptions text data_
 
@@ -489,19 +496,23 @@ _Forecasting battery failure_
 
     In a forecasting scenario, time-stamped data is provided, and the goal is to be able to forecast a value a certain number of periods in the future by looking at historical data. In Trey's case, they could use their existing daily battery telemetry to train a model that forecast the battery cycles used in any given day, for 30 days out. They would sum the battery cycles used from the historical data plus the forecast data and if the result exceeds the expected battery life, they could predict this as a pending failure.
 
-2. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
+2. Describe how Trey would approach the data cleansing and preparation process.
+
+    First, data needs to be analyzed using a combination of numerical and visual methods (e.g., display the time series and attempt to identify any anomalies visually). Next, we validate the preliminary hypothesis related to data issues using proper metrics. Once we complete the identification and validation of the problems, we eliminate each one of them until the data is clean.
+
+3. With regards to the model, what options does Trey have for creating the model against the time series data? Should they create a regression model, a forecasting model or a classifier? Why?
 
     When forecasting against time-series data Trey should pick a forecasting model so as to take advantage of the temporal signals in the data. While a regression could work in this scenario, it is not common practice to use a regression when time series data is available.
 
-3. Can this model be built using machine learning or does it require deep learning?
+4. Can this model be built using machine learning or does it require deep learning?
 
     This model can be built using forecasting techniques from either machine learning or deep learning.
 
-4. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
+5. If you were to suggest a deep learning model for forecasting against the time-series data, what architecture of neural network would you consider using first?
 
     Generally, when forecasting against time-series data the predictions desired should be informed by all the historical data, but place more emphasis on more recent data. Recurrent Neural Networks (RNN's) provide such capability, and that is why they are frequently the first neural network architecture attempted with time-series data.
 
-5. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
+6. Describe how Trey would use the model in the context of scoring the streaming telemetry? What services and frameworks would you suggest?
 
     Trey should use the model within notebooks running in Azure Databricks, and apply the model using Spark Streaming to forecast results on micro-batches of battery telemetry as they arrive.  
 
@@ -546,7 +557,7 @@ _Model Explainability & Reproducibility_
 
 2. Is the approach you suggest limited to working against machine learning models only (e.g., it does not work against deep learning models)?
 
-    The approach taken under the covers by Azure Machine Learning Python SDK is effectively black box testing of a model- it takes an input sample, uses the model to make the prediction and evaluates the outcome using a variety of techniques (called explainers). As such it is agnostic to whether the model is machine learning based or deep learning based.
+    The approach taken under the covers by Azure Machine Learning Python SDK is effectively black box testing of a model - it takes an input sample, uses the model to make the prediction and evaluates the outcome using a variety of techniques (called explainers). As such it is agnostic to whether the model is machine learning based or deep learning based.
 
 3. Does your approach support explaining models created with automated machine learning?
 
@@ -589,6 +600,20 @@ _Enabling visualization_
 4. Some of our team has worked with Azure Databricks, and they are confused by the overlap with Azure Machine Learning. How should we be thinking about when to use which?
 
     Consider using both. The best way to think about the relationship between Azure Databricks and Azure Machine Learning is that Azure Databricks provides the tools for data engineers and data scientists to author their data and machine learning pipelines as well as the compute that powers these, and Azure Machine Learning provides the platform that formalizes the modeling process by capturing data about training runs, versioning pipelines and models and assisting with the deployment of models as web services.
+
+5. We have heard a lot about how complicated and opaque trained deep learning models are. How is it even possible to attempt to explain them?
+
+    The approach taken under the covers by Azure Machine Learning Python SDK is effectively black box testing of a model- it takes an input sample, uses the model to make the prediction and evaluates the outcome using a variety of techniques (called explainers). As such it is agnostic to whether the model is machine learning based or deep learning based. An example of such an explainer is the `Mimic Explainer` (also called a `Global Surrogate`). The Mimic Explainer is based on the idea of training [global surrogate models](https://christophm.github.io/interpretable-ml-book/global.html) to mimic blackbox models. A global surrogate model is an intrinsically interpretable model that is trained to approximate the predictions of any black box model as accurately as possible. Data scientists can interpret the surrogate model to draw conclusions about the black box model. You can use one of the following interpretable models as your surrogate model: LightGBM (LGBMExplainableModel), Linear Regression (LinearExplainableModel), Stochastic Gradient Descent explainable model (SGDExplainableModel), and Decision Tree (DecisionTreeExplainableModel).
+
+    Using the classes and methods in the SDK, you can:
+
+    - Explain model prediction by generating feature importance values for the entire model and/or individual datapoints.
+    - Achieve model interpretability on real-world datasets at scale, during training and inference.
+    - Use an interactive visualization dashboard to discover patterns in data and explanations at training time
+
+    The `azureml-interpret` SDK module uses the interpretability techniques developed in `Interpret-Community`, an open source python package for training interpretable models and helping to explain blackbox AI systems. 
+    
+    For a detailed introduction, see [Model interpretability in Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-machine-learning-interpretability).
 
 ## Customer quote (to be read back to the attendees at the end)
 
