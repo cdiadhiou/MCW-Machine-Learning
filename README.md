@@ -9,7 +9,7 @@ In the first scenario, Trey Research recently instituted new regulations definin
 
 In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the time series-based telemetry data that the car provides. The data contains details about how the battery performs when the vehicle is started, how it is charging while running, and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
 
-September 2020
+November 2020
 
 ## Target audience
 
