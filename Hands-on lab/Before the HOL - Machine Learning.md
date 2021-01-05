@@ -159,6 +159,10 @@ The notebooks you will run depends on certain Python libraries that will need to
 
 4. Select **Import**.
 
+    > **Note**: If you are facing difficulty with this URL, you can also consider cloning this repository locally, and uploading the file from your computer to databricks. To do this, download the zip archive of this repository, and extract it to a known location. Then, from the repository root, navigate to `Hands-on lab/notebooks/AI with Databricks and AML.dbc`.
+    > 
+    > ![Obtaining a zip archive of the repository to access the notebook for upload into the Databricks workspace.](images/download-zip-repository.png "Obtaining a local copy of the repository")
+
 5. A folder named after the archive should appear. Select that folder.
 
 6. The folder will contain one or more notebooks. These are the notebooks you will use in completing this lab.
@@ -186,6 +190,8 @@ The notebooks you will run depends on certain Python libraries that will need to
     - **Workspace edition**: Select `Enterprise`.
 
     ![The Machine Learning Create form is populated with the values outlined above. The Review + Create button is highlighted at the bottom of the form.](images/create-aml-workspace.png 'Azure Machine Learning Workspace Creation Dialog')
+
+    > **Note**: The option to set the **Workspace edition** may not be present. 
 
 4. Select **Review + Create** and then select **Create** when the form values passes validation.
 
