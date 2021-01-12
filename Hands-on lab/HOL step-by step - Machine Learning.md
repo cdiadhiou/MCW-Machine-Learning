@@ -33,13 +33,13 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Before the hands-on lab](#before-the-hands-on-lab)    
     - [Exercise 1: Data exploration and preprocessing](#exercise-1-data-exploration-and-preprocessing)        
       - [Task 1: Load, explore and prepare the dataset using an Azure Databricks notebook](#task-1-load-explore-and-prepare-the-dataset-using-an-azure-databricks-notebook)
-    -  [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)        
+    - [Exercise 2: Creating a forecast model using automated machine learning](#exercise-2-creating-a-forecast-model-using-automated-machine-learning)        
        - [Task 1: Create an automated machine learning experiment](#task-1-create-an-automated-machine-learning-experiment) 
        - [Task 2: Review the experiment run results](#task-2-review-the-experiment-run-results) 
-       - [Task 3: Deploy best model](#task-3-deploy-best-model)       
-       - [Task 4: Perform batch inferencing in Azure DataBricks](#task-4-perform-batch-inferencing-in-azure-databricks)
-    - [Exercise 3: Using a forecast model for scoring of streaming telemetry](#exercise-3-using-a-forecast-model-for-scoring-of-streaming-telemetry)        
-      - [Task 1: Create the streaming job using a notebook](#task-1-create-the-streaming-job-using-a-notebook)
+       - [Task 3: Deploy the best model](#task-3-deploy-the-best-model)       
+       - [Task 4: Perform batch scoring in Azure DataBricks](#task-4-perform-batch-scoring-in-azure-databricks)
+    - [Exercise 3: Creating a deep learning model (RNN) for time series data](#exercise-3-creating-a-deep-learning-model-rnn-for-time-series-data)        
+      - [Task 1: Create the deep learning model and start a streaming job using a notebook](#task-1-create-the-deep-learning-model-and-start-a-streaming-job-using-a-notebook)
     - [Exercise 4: Creating, training and tracking a deep learning text classification model with MLflow and Azure Machine Learning](#exercise-4-creating-training-and-tracking-a-deep-learning-text-classification-model-with-mlflow-and-azure-machine-learning) 
       -  [Task 1: Create, train and track the classification model using a notebook](#task-1-create-train-and-track-the-classification-model-using-a-notebook)
       - [Task 2: Review model performance metrics and training artifacts in Azure Machine Learning workspace](#task-2-review-model-performance-metrics-and-training-artifacts-in-azure-machine-learning-workspace)   
@@ -60,7 +60,7 @@ Trey Research Inc. delivers innovative solutions for manufacturers. They special
 
 Trey Research is looking to provide the next generation experience for connected car manufacturers by enabling them to utilize AI to decide when to pro-actively reach out to the customer through alerts delivered directly to the car's in-dash information and entertainment head unit. For their proof of concept (PoC), they would like to focus on two maintenance related scenarios.
 
-In the first scenario, Trey Research recently instituted new regulations defining what parts are compliant or out of compliance. Rather than rely on their technicians to assess compliance, they would like to automatically assess the compliance based on component notes already entered by authorized technicians. Specifically, they are looking to leverage Deep Learning technologies with Natural Language Processing techniques to scan through vehicle specification documents to find compliance issues with new regulations. Then each car is evaluated for out compliance components.
+In the first scenario, Trey Research recently instituted new regulations defining what parts are compliant or out of compliance. Rather than rely on their technicians to assess compliance, they would like to automatically assess the compliance based on component notes already entered by authorized technicians. Specifically, they are looking to leverage Deep Learning technologies with Natural Language Processing techniques to scan through vehicle specification documents to find compliance issues with new regulations. Then each car is evaluated for out of compliance components.
 
 In the second scenario, Trey Research would like to predict the likelihood of battery failure based on the time series-based telemetry data that the car provides. The data contains details about how the battery performs when the vehicle is started, how it is charging while running, and how well it is holding its charge, among other factors. If they detect a battery failure is imminent within the next 30 days, they would like to send an alert.
 
@@ -104,7 +104,11 @@ Understanding data through data exploration is one of the core challenges faced 
 
 1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 1.0 Data Preparation`. This is the notebook you will step through executing in this exercise.
 
-2. Follow the instructions within the notebook to complete the exercise.
+2. When you execute a notebook, you will need to attach it to a cluster. You can specify that the **lab** cluster should be used in the upper left-hand corner of the notebook. 
+
+    ![Attaching the lab cluster to the notebook for execution.](images/attach-cluster-to-notebook.png "Attaching lab cluster to notebook")
+
+3. Follow the instructions within the notebook to complete the exercise. Press Shift+Enter to execute a cell.
 
 ## Exercise 2: Creating a forecast model using automated machine learning
 
@@ -140,17 +144,27 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![In the Configure run form is populated with the above values. The Create a new compute button is highlighted.](images/automl-create-experiment.png 'Create New Experiment details')
 
-7.  For the new compute, provide the following values and then select **Create**:
+7. For the new compute, provide the following values and then select **Next**:
+
+    - **Virtual machine priority**: `Dedicated`
+
+    - **Virtual machine type**: `CPU`
+
+    - **Virtual machine size**: `Select from recommended options` --> `Standard_DS3_v2`
+
+    ![The Create compute cluster form is populated with the above values. The Next button is selected at the bottom of the form.](images/create-compute-1.png "Setting preliminary information for a new compute cluster")
+
+8. On the next page, provide the following parameters for your compute cluster. Then, select **Create**.
 
     - **Compute name**: `auto-ml-compute`
-  
-    - **Select Virtual Machine size**: `STANDARD_DS3_v2`
-  
+
     - **Minimum number of nodes**: `1`
-  
+
     - **Maximum number of nodes**: `1`
 
-    ![The New Training Cluster form is populated with the above values. The Create button is selected at the bottom of the form.](images/automl-create-compute.png 'Create a New Compute')
+    - **Idle seconds before scale down**: `120`
+
+    ![Setting compute name, minimum number of nodes, maximum number of nodes, and idle seconds before scale down.](images/create-compute-2.png "Finalizing compute parameters")
 
     > **Note**: The creation of the new compute may take several minutes. Once the process is completed, select **Next** in the `Configure run` section.
 
@@ -167,6 +181,8 @@ In this exercise, you will create a model that predicts battery failure from tim
 10. For the automated machine learning run additional configurations, provide the following values and then select **Save**:
 
     - **Primary metric**: `Normalized root mean squared error`
+
+    - **Explain best model**: Selected
 
     - **Training job time (hours)** (in the `Exit criterion` section): enter `1` as this is the lowest value currently accepted.
 
@@ -202,6 +218,8 @@ In this exercise, you will create a model that predicts battery failure from tim
 
     ![The model run page is shown with the Metrics tab selected. A chart is displayed showing the Predicted vs True curve.](images/automl-review-run-05.png 'Predicted vs True curve')
 
+    > **Note**: You may need to deselect the other metrics.
+
 ### Task 3: Deploy the Best Model
 
 1. From the top toolbar select **Deploy**.
@@ -222,13 +240,13 @@ In this exercise, you will create a model that predicts battery failure from tim
 
    ![In the left menu, the Endpoints icon is selected. On the Endpoints screen, the Rea-time endpoints tab is selected and a table is displayed showing the battery-cycles endpoint highlighted.](images/automl-deploy-best-model-03.png 'Deployed model endpoints')
 
-   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds, but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful de deployment will have a state of `Healthy`.
+   > **Note**: The `battery-cycles` endpoint will show up in a matter of seconds, but the actual deployment takes several minutes. You can check the deployment state of the endpoint by selecting it and then selecting the `Details` tab. A successful deployment will have a state of `Healthy`.
 
 4. If you see your model deployed in the above list, you are now ready to continue on to the next exercise.
    
 ### Task 4: Perform batch scoring in Azure DataBricks
 
-1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 2.0 Batch Scoring for Timeseries`. This is the notebook you will step through executing in this exercise.
+1. Browse to your Azure Databricks Workspace and navigate to `AI with Databricks and AML \ 2.0 Batch Scoring for Timeseries`. This is the notebook you will step through executing in this exercise. Again, remember that you may need to reconnect to the **lab** cluster.
 
 2. Follow the instructions within the notebook to complete the exercise.
 
